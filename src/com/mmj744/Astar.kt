@@ -71,8 +71,6 @@ class AStar {
         map.add(Vector2(2, 4))
         map.add(Vector2(2, 0))
         map.add(Vector2(2, 1))
-        println(map)
-        println("TEST")
         val path = findShortestPath(map, Vector2(0, 0), Vector2(2, 4))
         passed = passed && path != null
         println(path)
