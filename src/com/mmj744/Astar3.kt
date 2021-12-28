@@ -7,22 +7,22 @@ class AStar3 {
     fun findShortestPath(map: List<Vector3>, start: Vector3, goal: Vector3): List<Vector3?>? {
         val path = ArrayList<Vector3?>()
         val openList = ArrayList<Node>()
-        val noneVisitedNodes = ArrayList<Node>();
-        var current: Node? = null
+        val noneVisitedNodes = ArrayList<Node>()
+        var current: Node?
         for (v in map) {
             //first create nodes
             val n = Node(v, Int.MAX_VALUE, calcH(v, goal), Int.MAX_VALUE, v == goal, null)
             if (v == start) {
-                n.g = 0;
-                openList.add(n);
+                n.g = 0
+                openList.add(n)
             } else noneVisitedNodes.add(n)
         }
-        if (openList.isEmpty()) return null;
+        if (openList.isEmpty()) return null
         do
         {
             openList.sortWith { x: Node, y: Node -> x.f.compareTo(y.f) }
             current = openList.removeAt(0) //Take node with lowest f value from the list
-            noneVisitedNodes.remove(current);
+            noneVisitedNodes.remove(current)
             val neighbours = getNeighbours(current, noneVisitedNodes)
             //Calculate f values for neighbours
             for (neighbour in neighbours) {
@@ -52,7 +52,7 @@ class AStar3 {
 
     private fun getNeighbours(n: Node?, map: List<Node>): List<Node> //gets all neighbouring nodes
     {
-        return map.stream().filter { x: Node -> (x.L - n!!.L).sqrMagnitue() == 1 }.toList()
+        return map.stream().filter { x: Node -> (x.L - n!!.L).sqrMagnitude() == 1 }.toList()
     }
 
     fun test(): Boolean {
