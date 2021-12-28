@@ -1,9 +1,5 @@
 package com.mmj744
 
-import kotlin.jvm.JvmStatic
-import com.mmj744.AStar
-import com.mmj744.AStar3
-
 object Main {
     @JvmStatic
     fun main(args: Array<String>) {

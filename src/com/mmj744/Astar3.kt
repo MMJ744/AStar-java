@@ -1,7 +1,5 @@
 package com.mmj744
 
-import kotlin.collections.ArrayList
-
 class AStar3 {
 
     fun findShortestPath(map: List<Vector3>, start: Vector3, goal: Vector3): List<Vector3?>? {
@@ -18,8 +16,7 @@ class AStar3 {
             } else noneVisitedNodes.add(n)
         }
         if (openList.isEmpty()) return null
-        do
-        {
+        do {
             openList.sortWith { x: Node, y: Node -> x.f.compareTo(y.f) }
             current = openList.removeAt(0) //Take node with lowest f value from the list
             noneVisitedNodes.remove(current)
@@ -93,5 +90,12 @@ class AStar3 {
     }
 
 
-    data class Node(var L: Vector3, var g: Int = Int.MAX_VALUE, var h: Int = 0, var f: Int = Int.MAX_VALUE, var goal: Boolean = false, var parent: Node? = null)
+    data class Node(
+        var L: Vector3,
+        var g: Int = Int.MAX_VALUE,
+        var h: Int = 0,
+        var f: Int = Int.MAX_VALUE,
+        var goal: Boolean = false,
+        var parent: Node? = null
+    )
 }

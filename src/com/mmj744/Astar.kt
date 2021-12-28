@@ -1,7 +1,5 @@
 package com.mmj744
 
-import java.util.ArrayList
-
 class AStar {
 
     fun findShortestPath(map: List<Vector2>, start: Vector2, goal: Vector2): List<Vector2?>? {
@@ -18,8 +16,7 @@ class AStar {
             } else noneVisitedNodes.add(n)
         }
         if (openList.isEmpty()) return null
-        do
-        {
+        do {
             openList.sortWith { x: Node, y: Node -> x.f.compareTo(y.f) }
             current = openList.removeAt(0) //Take node with lowest f value from the list
             noneVisitedNodes.remove(current)
@@ -88,5 +85,12 @@ class AStar {
     }
 
 
-    data class Node(var L: Vector2, var g: Int = Int.MAX_VALUE, var h: Int = 0, var f: Int = Int.MAX_VALUE, var goal: Boolean = false, var parent: Node? = null)
+    data class Node(
+        var L: Vector2,
+        var g: Int = Int.MAX_VALUE,
+        var h: Int = 0,
+        var f: Int = Int.MAX_VALUE,
+        var goal: Boolean = false,
+        var parent: Node? = null
+    )
 }
