@@ -7,26 +7,34 @@ class AStar {
     fun findShortestPath(map: List<Vector2>, start: Vector2, goal: Vector2): List<Vector2?>? {
         val path = ArrayList<Vector2?>()
         val openList = ArrayList<Node>()
+        val noneVisitedNodes = ArrayList<Node>();
         var current: Node? = null
         for (v in map) {
             //first create nodes
             val n = Node(v, Int.MAX_VALUE, calcH(v, goal), Int.MAX_VALUE, v == goal, null)
-            if (v == start) current = n else openList.add(n)
+            if (v == start) {
+                n.g = 0;
+                openList.add(n);
+            } else noneVisitedNodes.add(n)
         }
-        if (current == null) return null
-        while (!current!!.goal && openList.size > 0) //Until goal reached or no path found
+        if (openList.isEmpty()) return null;
+        do
         {
-            val neighbours = getNeighbours(current, openList)
+            openList.sortWith { x: Node, y: Node -> x.f.compareTo(y.f) }
+            current = openList.removeAt(0) //Take node with lowest f value from the list
+            noneVisitedNodes.remove(current);
+            val neighbours = getNeighbours(current, noneVisitedNodes)
             //Calculate f values for neighbours
             for (neighbour in neighbours) {
                 val temp = 1 + current.g + neighbour.h
                 if (temp >= neighbour.f) continue
                 neighbour.f = temp
                 neighbour.parent = current
+                neighbour.g = 1 + current.g
+                openList.add(neighbour)
             }
-            openList.sortWith { x: Node, y: Node -> x.f.compareTo(y.f) }
-            current = openList.removeAt(0) //Take node with lowest f value from the list
-        }
+        } while (!current!!.goal && openList.size > 0) //Until goal reached or no path found
+
         if (!current.goal) return null //No path found
         path.add(current.L)
         while (current!!.parent.also { current = it } != null) //Construct the path starting from goal
@@ -44,7 +52,7 @@ class AStar {
 
     private fun getNeighbours(n: Node?, map: List<Node>): List<Node> //gets all neighbouring nodes
     {
-        return map.stream().filter { x: Node -> (x.L - n!!.L).sqrMagnitue() == 1 }.toList()
+        return map.stream().filter { x: Node -> (x.L - n!!.L).sqrMagnitude() == 1 }.toList()
     }
 
     fun test(): Boolean {
